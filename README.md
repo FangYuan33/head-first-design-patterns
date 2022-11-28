@@ -1,2 +1,2 @@
-# head-first-design-patterns
-Head First 设计模式及一些应用示例
+## 《Head First 设计模式》及一些应用示例
+
