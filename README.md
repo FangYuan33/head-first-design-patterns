@@ -24,8 +24,8 @@
 - 观察者模式代码示例在 chapter2 包下，通过JDK内置的 `Observable` 和 `Observer` 来实现。
 
 但是JDK提供的现成的观察者组件也有它自己的问题：
-- `Observable`是一个**类**，这也就导致了必须创建一个类来实现的， 而且Java是单继承的，所以要想再继承其他类的功能是行不通的
-- `Observable`中`setChanged()`的方法是被`protected`修饰的，这也就导致了，我们没有办法通过**组合**Observable实例到我们自己的对象中来实现
+1. `Observable`是一个**类**，这也就导致了必须创建一个类来实现的， 而且Java是单继承的，所以要想再继承其他类的功能是行不通的
+2. `Observable`中`setChanged()`的方法是被`protected`修饰的，这也就导致了，我们没有办法通过**组合**Observable实例到我们自己的对象中来实现
 想要的功能。这也违反了**多用组合，少用继承**的原则
 
 ![](images/观察者模式1.jpg)
