@@ -36,3 +36,30 @@
 ![](images/观察者模式2.jpg)
 
 代码示例在 chapter2/zookeeper 下
+
+## 15. 责任链模式
+> **责任链模式**可以实现多个对象对请求进行处理，而且是将请求和请求的处理者**解耦**：请求的发送者无需关心处理的细节和请求的传递，只需将请求发送到责任链上即可
+
+### 15.1 工作中对责任链模式的使用
+项目开放外部接口调用，请求进来都有一套必走的逻辑，如下
+
+![img.png](images/img.png)
+
+通过使用Spring的AOP切面技术并结合责任链模式，能够**按顺序**将以上处理节点进行封装，按需对请求进行处理，满足业务需求并达到**解耦**的目的
+
+代码示例在 chapter15 下，结构如下图所示
+
+![](images/责任链模式.jpg)
+
+### 15.2 zookeeper对责任链模式的使用
+![img.png](images/zookeeper.png)
+
+zookeeper在处理create请求时，会封装一条如上图所示的责任链（理解流程需要了解zookeeper相关知识）
+
+- **LeaderRequestProcessor**: 校验工作
+- **PrepRequestProcessor**: 请求入队
+- **ProposalRequestProcessor**: 两阶段提交的proposal阶段
+- **SyncRequestProcessor**: 将数据写入本地事务文件
+- **CommitProcessor**: 等到过半ack后，处理接下来的节点任务
+- **ToBeAppliedRequestProcessor**: do noting
+- **FinalRequestProcessor**: 将数据写到内存 Map 中
