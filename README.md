@@ -104,6 +104,85 @@
   - **工厂方法模式**: 通过**继承**来重写**单个工厂方法**
   - **抽象工厂模式**: 定义一个**接口**，由不同的子类实现**多个工厂方法**，创建一系列相关的对象
 
+## 6. 单例模式
+> **单例模式**确保**一个类只有一个实例**，并提供一个全局的访问点
+
+- 构造器私有
+- 公开出静态方法创建对象
+- 双重检测锁机制注意标记volatile
+
+### 6.1 饿汉式
+如果应用程序总是创建并使用该单例对象。或者在创建和运行时方面的负担不太繁重，可以**急迫地**创建该单例
+
+```java
+/**
+ * 饿汉式单例模式
+ */
+public class Singleton {
+    private static final Singleton singleton = new Singleton();
+
+    private Singleton() {
+    }
+    
+    public static Singleton getInstance() {
+        return singleton;
+    }
+}
+```
+
+**JVM保证在任何线程访问 `singleton` 静态变量之前，一定先创建此实例**
+
+### 6.2 懒汉式
+如果程序**可以接受**同步的getInstance方法造成的额外负担，那么可以采用如下的方法
+
+```java
+/**
+ * 懒汉式单例模式
+ */
+public class Singleton {
+    private static Singleton singleton = null;
+
+    private Singleton() {
+    }
+    
+    public static synchronized Singleton getInstance() {
+        if (singleton == null) {
+            singleton = new Singleton();
+        }
+        
+        return singleton;
+    }
+}
+```
+
+### 6.3 双重检测锁
+如果想在用到时才创建对象且运行时比较关注性能的话，可以采用这种机制，因为在该对象创建完成后，便不会再有加锁操作出现了
+
+```java
+/**
+ * 双重检测锁单例模式
+ */
+public class Singleton {
+
+    private static volatile Singleton singleton;
+
+    private Singleton() {
+    }
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+
+        return singleton;
+    }
+}
+```
+- volatile关键字确保 `singleton` 对象被创建后其他线程能及时的知道
 
 ## 15. 责任链模式
 > **责任链模式**可以实现多个对象对请求进行处理，而且是将请求和请求的处理者**解耦**：请求的发送者无需关心处理的细节和请求的传递，只需将请求发送到责任链上即可
