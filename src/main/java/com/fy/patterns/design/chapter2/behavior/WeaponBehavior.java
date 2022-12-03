@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter1.behavior;
+package com.fy.patterns.design.chapter2.behavior;
 
 /**
  * 武器行为，定义接口，有多种实现（算法族）

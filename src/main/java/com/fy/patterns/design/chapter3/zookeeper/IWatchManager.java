@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter2.zookeeper;
+package com.fy.patterns.design.chapter3.zookeeper;
 
 /**
  * 主题接口，zookeeper叫IWatchManager

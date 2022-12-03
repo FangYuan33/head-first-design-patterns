@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter2.zookeeper;
+package com.fy.patterns.design.chapter3.zookeeper;
 
 public enum EventType {
     // Watcher 监听的数据节点被创建时

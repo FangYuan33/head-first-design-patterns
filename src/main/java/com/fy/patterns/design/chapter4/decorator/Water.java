@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter3.decorator;
+package com.fy.patterns.design.chapter4.decorator;
 
 import java.math.BigDecimal;
 

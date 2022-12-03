@@ -1,6 +1,6 @@
-package com.fy.patterns.design.chapter1.character;
+package com.fy.patterns.design.chapter2.character;
 
-import com.fy.patterns.design.chapter1.behavior.WeaponBehavior;
+import com.fy.patterns.design.chapter2.behavior.WeaponBehavior;
 
 /**
  * 角色抽象类，被具体角色继承

@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter1.character;
+package com.fy.patterns.design.chapter2.character;
 
 /**
  * 国王！

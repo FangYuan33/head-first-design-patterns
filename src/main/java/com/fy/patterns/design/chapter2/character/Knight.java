@@ -1,6 +1,6 @@
-package com.fy.patterns.design.chapter1.character;
+package com.fy.patterns.design.chapter2.character;
 
-import com.fy.patterns.design.chapter1.behavior.KnifeBehavior;
+import com.fy.patterns.design.chapter2.behavior.KnifeBehavior;
 
 /**
  * 骑士！

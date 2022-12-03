@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter2;
+package com.fy.patterns.design.chapter3;
 
 import java.util.Observable;
 import java.util.Observer;

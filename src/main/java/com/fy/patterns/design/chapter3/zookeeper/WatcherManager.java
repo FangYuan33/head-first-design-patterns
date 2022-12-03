@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter2.zookeeper;
+package com.fy.patterns.design.chapter3.zookeeper;
 
 import java.util.HashMap;
 import java.util.HashSet;

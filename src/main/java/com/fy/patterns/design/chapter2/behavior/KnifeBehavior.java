@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter1.behavior;
+package com.fy.patterns.design.chapter2.behavior;
 
 /**
  * 匕首武器行为，算法族之一
