@@ -6,6 +6,11 @@ public class SimpleRemoteControl {
 
     private Command command;
 
+    /**
+     * 记录上一条命令
+     */
+    private Command previousCommand;
+
     public void setCommand(Command command) {
         this.command = command;
     }
@@ -15,5 +20,15 @@ public class SimpleRemoteControl {
      */
     public void buttonWasPressed() {
         command.execute();
+        previousCommand = command;
+    }
+
+    /**
+     * 取消上次按钮的命令
+     */
+    public void undoButtonPressed() {
+        if (previousCommand != null) {
+            previousCommand.undo();
+        }
     }
 }
