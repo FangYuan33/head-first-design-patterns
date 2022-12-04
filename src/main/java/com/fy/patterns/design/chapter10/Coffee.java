@@ -10,4 +10,9 @@ public class Coffee extends CaffeineBeverage {
     protected void addCondiments() {
         System.out.println("加糖");
     }
+
+    @Override
+    protected boolean needCondiments() {
+        return false;
+    }
 }

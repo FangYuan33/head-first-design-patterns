@@ -5,6 +5,8 @@ public class Test {
         Coffee coffee = new Coffee();
         coffee.prepareRecipe();
 
+        System.out.println("--------------");
+
         Tea tea = new Tea();
         tea.prepareRecipe();
     }
