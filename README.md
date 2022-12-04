@@ -238,6 +238,30 @@ public class Singleton {
 - 代码示例在 chapter10 下，对应类图如下
   ![](images/模板方法模式.jpg)
 
+### 10.2 Arrays.sort() 对模板方法模式的应用
+
+```
+public static void sort(Object[] a) {
+    Object[] aux = (Object[]) a.clone();
+    // 注意往下看这里
+    mergeSort(aux, a, 0, a.length, 0);
+}
+
+private static void mergeSort(...) {
+    ...
+                               // 注意看这里对Comparable.compareTo的使用
+    for (int j = i; j < low && ((Comparable)dest[j - 1]).compareTo((Comparable)dest[j]) > 0; j--) {
+        ...
+    }
+    ...
+}
+```
+
+这个排序的静态方法，注意其中依赖`Comparable.compareTo()`方法。这就需要让子类去实现 `Comparable` 接口才能完成比较，
+整个排序方法的模板已经写好了**作为模板方法**， 而这一步**比较的方式**相当于是子类自己去做具体的实现，如此也是模板方法设计模式的使用
+
+- 代码示例在 chapter10/sort 下
+
 ## 15. 责任链模式
 > **责任链模式**可以实现多个对象对请求进行处理，而且是将请求和请求的处理者**解耦**：请求的发送者无需关心处理的细节和请求的传递，只需将请求发送到责任链上即可
 
