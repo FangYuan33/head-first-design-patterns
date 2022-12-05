@@ -20,7 +20,7 @@ public class TemperatureLog implements Observer {
      */
     public TemperatureLog(Observable observable) {
         this.observable = observable;
-        observable.addObserver(this);
+        this.observable.addObserver(this);
     }
 
     /**
@@ -30,6 +30,7 @@ public class TemperatureLog implements Observer {
         observable.deleteObserver(this);
     }
 
+    @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Integer) {
             Integer temperature = (Integer) arg;
