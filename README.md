@@ -29,13 +29,154 @@
 
 ## 2. 策略模式
 
-> **策略模式**定义了算法族，分别封装起来，让它们之间可以互相替换。我理解的是在Spring中，一个Bean有多种实现，在注入时我们可以选择注入想要的实现。
+> **策略模式**定义了算法族，分别封装起来，让它们之间可以互相替换
 
 - 策略模式代码示例在 chapter2 包下
 
 ### 2.1 MVC
 
-视图和控制器实现了经典的策略模式，视图可以被调整使用不同的策略，而控制器提供了不同的策略。视图只关心系统中可视的部分，对于任何界面行为，都委托给控制器处理。
+View 和 Controller 实现了经典的策略模式，View 可以被调整使用不同的策略，而 Controller 提供了不同的策略。View 只关心系统中可视的部分，对于任何 View 中的数据，都委托给 Controller 处理。
+
+### 2.2 我对策略模式的理解
+
+以如下代码为例：
+
+1. 定义策略对象 `Strategy`，它只与策略的选择相关，将相关的字段封装在该对象中，样例中是三个维度条件
+2. 定义 `RuleService`，它是一个规则 Service，通过 Strategy 对象来匹配对应的策略
+3. 具体执行处理逻辑的 `Service` 封装在以 beanName 为 key，具体 Service 为 Value 的 Map 中，因为枚举值中已经定义了对应的 beanName，所以可以通过枚举值来获取到
+
+```java
+@Service
+public class BusinessService implements ApplicationContextAware, InitializingBean {
+
+    private ApplicationContext applicationContext;
+
+    /**
+     * 将所有的策略封装在 map 中，key: beanName, value: specificService
+     */
+    private HashMap<String, DoBusinessService> specificServiceMap;
+    
+    @Autowired
+    private RuleService ruleService;
+
+    /**
+     * 执行业务逻辑
+     */
+    public void process(BusinessInfo businessInfo) {
+        // 定义策略对象，只将决定策略选择的字段信息封装
+        Strategy strategy = new Strategy(businessInfo.getCondition1(), businessInfo.getCondition2(), businessInfo.getCondition3());
+        // 创建规则Service，来匹配对应的策略
+        StrategyEnum strategyEnum = ruleService.getStrategyEnum(strategy);
+        // 通过枚举中定义的 beanName 获取到对应的服务
+        DoBusinessService specificService = specificServiceMap.get(strategyEnum.getBeanName());
+        return specificService.doProcess();
+    }
+
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        specificServiceMap = new HashMap<>();
+        specificServiceMap.putAll(applicationContext.getBeansOfType(DoBusinessService.class));
+    }
+
+}
+```
+
+匹配规则 Service 如下：
+
+```java
+public interface RuleService {
+    StrategyEnum getStrategyEnum(Strategy strategy);
+}
+
+@Service
+public class RuleServiceImpl implements RuleService {
+  @Override
+  public StrategyEnum getStrategyEnum(Strategy strategy) {
+    String condition1 = strategy.getCondition1();
+    String condition2 = strategy.getCondition2();
+    String condition3 = strategy.getCondition3();
+
+    // 根据三个维度来确定一个策略
+    StrategyEnum strategyEnum = null;
+    boolean c1;
+    boolean c2;
+    boolean c3;
+    for (StrategyEnum value : values()) {
+      c1 = value.getCondition1().equals(condition1);
+      c2 = value.getCondition2().equals(condition2);
+      c3 = value.getCondition3().equals(condition3);
+
+      if (c1 && c2 && c3) {
+        strategyEnum = value;
+      }
+    }
+
+    if (strategyEnum == null) {
+      throw new RuntimeException("未知的策略类型");
+    }
+
+    return strategyEnum;
+  }
+}
+```
+
+枚举值信息如下，包含了服务名和对应的条件值
+
+```java
+public enum StrategyEnum {
+    
+    ONE("oneService", "1", "1", "1"),
+    TWO("twoService", "2", "1", "2"),
+    THREE("threeService", "2", "2", "2"),
+    ;
+
+    /**
+     * 对应 service 名称
+     */
+    private final String beanName;
+
+    private final String condition1;
+
+    private final String condition2;
+
+    private final String condition3;
+
+    StrategyEnum(String beanName, String condition1, String condition2, String condition3) {
+        this.beanName = beanName;
+        this.condition1 = condition1;
+        this.condition2 = condition2;
+        this.condition3 = condition3;
+    }
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public String getCondition1() {
+        return condition1;
+    }
+
+    public String getCondition2() {
+        return condition2;
+    }
+
+    public String getCondition3() {
+        return condition3;
+    }
+}
+```
+
+需要注意的是，当有多个维度来判断选择某策略，且使用的是枚举来记录某策略的维度时，需要提前考虑好维度的数量，否则如果在后期需要进行维度扩展判断时，在枚举值很多的情况下，所有枚举都需要新增新的维度是很耗时且头疼的事情。
+
+一般情况下，策略数量在 20 ~ 30 个时，使用枚举作为策略的配置是合适的，如果策略成百上千，需要进行架构升级，考虑使用规则引擎。
+
+策略模式能够很好的优化含有大量 if-else 的代码，该模式应用的是否得当需要对灵活性进行考虑（开闭原则）：新增策略时，应只需要添加对应的 service 和配置，而不需要修改业务代码，实现解耦。
 
 ## 3. 观察者模式
 
