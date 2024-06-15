@@ -20,4 +20,9 @@ public class LightOnCommand implements Command {
     public void undo() {
         light.lightOff();
     }
+
+    @Override
+    public void redo() {
+
+    }
 }

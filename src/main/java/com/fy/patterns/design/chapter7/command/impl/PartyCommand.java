@@ -28,4 +28,9 @@ public class PartyCommand implements Command {
             command.undo();
         }
     }
+
+    @Override
+    public void redo() {
+
+    }
 }

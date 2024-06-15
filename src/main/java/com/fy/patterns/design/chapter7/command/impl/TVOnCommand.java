@@ -20,4 +20,9 @@ public class TVOnCommand implements Command {
     public void undo() {
         tv.off();
     }
+
+    @Override
+    public void redo() {
+
+    }
 }

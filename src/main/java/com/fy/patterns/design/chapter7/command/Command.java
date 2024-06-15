@@ -8,7 +8,12 @@ public interface Command {
     void execute();
 
     /**
-     * 执行命令相反的逻辑
+     * 撤销操作
      */
     void undo();
+
+    /**
+     * 重做操作
+     */
+    void redo();
 }
