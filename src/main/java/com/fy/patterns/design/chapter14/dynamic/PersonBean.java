@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter14;
+package com.fy.patterns.design.chapter14.dynamic;
 
 public interface PersonBean {
 

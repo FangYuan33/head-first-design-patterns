@@ -1,4 +1,4 @@
-package com.fy.patterns.design.chapter14;
+package com.fy.patterns.design.chapter14.dynamic;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
