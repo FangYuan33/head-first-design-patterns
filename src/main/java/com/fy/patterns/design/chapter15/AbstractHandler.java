@@ -4,7 +4,7 @@ package com.fy.patterns.design.chapter15;
  * 通用的处理节点
  * 将调用链的处理节点可以封装成一条链表
  *
- * @author wangyilong13
+ * @author FangYuan
  * @since 2022-11-30 20:30:39
  */
 public abstract class AbstractHandler {
