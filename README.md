@@ -437,7 +437,7 @@ public class Singleton {
 
 ### Arrays.sort() 对模板方法模式的应用
 
-```
+```java
 public static void sort(Object[] a) {
     Object[] aux = (Object[]) a.clone();
     // 注意往下看这里
