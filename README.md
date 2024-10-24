@@ -299,8 +299,8 @@ Model使用了观察者模式，当模型的状态发生改变时，所有的观
 ![](images/MappedStatement%20建造者模式.drawio.png)
 
 - `MapperBuilderAssistant`: 对应建造者模式中的 `Director`，其中定义了构建 `MappedStatement` 对象各个字段值的逻辑
-- `MappedStatement`: 要构建的对象本书
-- `Builder`: 是 `MapperStatement` 中的静态内部类，定义了链式编程赋值的方法，用于构建 `MappedStatement` 对象
+- `MappedStatement`: 要构建的对象本身
+- `Builder`: 是 `MapperStatement` 中的静态内部类（一般将建造者定义在要构建的对象中是比较好的方式），定义了链式编程赋值的方法，用于构建 `MappedStatement` 对象
 
 ## 7. 单例模式
 
